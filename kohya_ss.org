@@ -1,0 +1,9 @@
+* Kohya_ss
+#+begin_src jupyter-python
+%cd /opt/kohya_ss
+
+username = "username"
+password = "password"
+
+!./gui.sh --headless --listen 127.0.0.1 --server_port 7861 --username $username --password $password --share
+#+end_src

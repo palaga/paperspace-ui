@@ -1,0 +1,11 @@
+* Automatic1111
+#+begin_src jupyter-python
+%cd /opt/A1111
+
+username = "username"
+password = "password"
+
+dataset_dir = "/datasets/"
+
+!python launch.py --gradio-auth $username:$password --enable-insecure-extension-access --xformers --share --ckpt-dir $dataset_dir
+#+end_src
