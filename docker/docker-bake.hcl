@@ -39,33 +39,21 @@ target "base" {
   tags = ["docker.io/${ACCOUNT}/${IMAGE_PREFIX}base:latest"]
 }
 
-target "automatic1111" {
-  dockerfile = "automatic1111/Dockerfile"
+target "default" {
+  name = "gradient-${app}"
+
+  matrix = {
+    app = [
+      "automatic1111",
+      "kohya_ss"
+    ]
+  }
+
+  dockerfile = "${app}/Dockerfile"
 
   contexts = {
     base = "target:base"
   }
 
-  tags = ["docker.io/${ACCOUNT}/${IMAGE_PREFIX}automatic1111:latest"]
-}
-
-target "kohya_ss" {
-  dockerfile = "kohya_ss/Dockerfile"
-
-  contexts = {
-    base = "target:base"
-  }
-
-  tags = ["docker.io/${ACCOUNT}/${IMAGE_PREFIX}kohya_ss:latest"]
-}
-
-
-#
-# Groups
-#
-group "default" {
-  targets = [
-    "automatic1111",
-    "kohya_ss"
-  ]
+  tags = ["docker.io/${ACCOUNT}/${IMAGE_PREFIX}${app}:latest"]
 }
