@@ -14,7 +14,7 @@ variable "PYTORCH" {
 }
 
 variable "CUDA" {
-  default = "12.1"
+  default = "11.8"
 }
 
 variable "CUDNN" {
@@ -36,7 +36,7 @@ target "base" {
     pytorch = "docker-image://pytorch/pytorch:${BASE_IMAGE_TAG}"
   }
 
-  tags = ["docker.io/${ACCOUNT}/${IMAGE_PREFIX}base:latest"]
+  tags = ["docker.io/${ACCOUNT}/${IMAGE_PREFIX}base:${BASE_IMAGE_TAG}"]
 }
 
 target "default" {
@@ -55,5 +55,5 @@ target "default" {
     base = "target:base"
   }
 
-  tags = ["docker.io/${ACCOUNT}/${IMAGE_PREFIX}${app}:latest"]
+  tags = ["docker.io/${ACCOUNT}/${IMAGE_PREFIX}${app}:${BASE_IMAGE_TAG}"]
 }
