@@ -27,6 +27,7 @@ RUN --mount=type=cache,target=/root/.cache/pip,sharing=locked \
     cd /opt/kohya_ss \
     && sed -i 's/^xformers==.*/xformers/' requirements_linux_docker.txt \
     && sed -i 's/^accelerate==.*/accelerate/' requirements_linux_docker.txt \
+    && cp requirements_linux_docker.txt requirements_linux.txt \
     && sed -i 's/\[.*dpkg-query.*python3-tk.*\]/false \&\& &/' setup.sh \
     && sed -i 's/inDocker;/true;/' setup.sh \
     && sed -i 's/python.*requirements_.*\.txt/python3 -m pip install -r requirements_linux_docker.txt/' setup.sh \
