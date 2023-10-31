@@ -45,7 +45,9 @@ target "default" {
   matrix = {
     app = [
       "automatic1111",
-      "kohya_ss"
+      "comfyui",
+      "kohya_ss",
+      "sdnext"
     ]
   }
 
