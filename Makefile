@@ -1,5 +1,5 @@
-uis = a1111 kohya_ss
-notebooks = $(addsuffix .ipynb,${uis})
+files = starter
+notebooks = $(addsuffix .ipynb,${files})
 
 all: ${notebooks}
 

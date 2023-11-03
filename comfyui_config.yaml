@@ -1,0 +1,17 @@
+# Symlink this file to your comfyui directory
+a1111:
+  base_path: path/to/stable-diffusion-webui/
+
+  checkpoints: models/Stable-diffusion
+  configs: models/Stable-diffusion
+  vae: models/VAE
+  loras: |
+    models/Lora
+    models/LyCORIS
+  upscale_models: |
+    models/ESRGAN
+    models/RealESRGAN
+    models/SwinIR
+  embeddings: embeddings
+  hypernetworks: models/hypernetworks
+  controlnet: models/ControlNet
