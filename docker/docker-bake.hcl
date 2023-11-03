@@ -5,57 +5,98 @@ variable "ACCOUNT" {
   default = "username"
 }
 
-variable "IMAGE_PREFIX" {
-  default = "gradient-"
-}
-
-variable "PYTORCH" {
-  default = "2.1.0"
+variable "UBUNTU" {
+  default = "22.04"
 }
 
 variable "CUDA" {
-  default = "11.8"
+  default = "11.8.0"
+}
+
+variable "TORCH" {
+  default = "118"
 }
 
 variable "CUDNN" {
-  default = "8"
+  default = "cudnn8"
 }
 
-variable "BASE_IMAGE_TAG" {
-  default = "${PYTORCH}-cuda${CUDA}-cudnn${CUDNN}-runtime"
+variable "BASE_IMAGE" {
+  default = "nvidia/cuda"
 }
 
-
-#
-# Targets
-#
-target "base" {
-  dockerfile = "base/Dockerfile"
-
-  contexts = {
-    pytorch = "docker-image://pytorch/pytorch:${BASE_IMAGE_TAG}"
-  }
-
-  tags = ["docker.io/${ACCOUNT}/${IMAGE_PREFIX}base:${BASE_IMAGE_TAG}"]
+variable "BASE_TAG" {
+  default = "${CUDA}-${CUDNN}-runtime-ubuntu${UBUNTU}"
 }
+
+variable "A1111_BASE_IMAGE" {
+  default = "${BASE_IMAGE}"
+}
+
+variable "A1111_BASE_TAG" {
+  default = "${BASE_TAG}"
+}
+
+variable "SDNEXT_BASE_IMAGE" {
+  default = "${BASE_IMAGE}"
+}
+
+variable "SDNEXT_BASE_TAG" {
+  default = "${BASE_TAG}"
+}
+
+variable "COMFYUI_BASE_IMAGE" {
+  default = "${BASE_IMAGE}"
+}
+
+variable "COMFYUI_BASE_TAG" {
+  default = "${BASE_TAG}"
+}
+
+variable "KOHYA_SS_BASE_IMAGE" {
+  default = "${BASE_IMAGE}"
+}
+
+variable "KOHYA_SS_BASE_TAG" {
+  default = "${BASE_TAG}"
+}
+
 
 target "default" {
-  name = "gradient-${app}"
+  name = "gradient-${item.app}"
 
   matrix = {
-    app = [
-      "automatic1111",
-      "comfyui",
-      "kohya_ss",
-      "sdnext"
+    item = [
+      {
+        app = "automatic1111"
+        image = "${A1111_BASE_IMAGE}"
+        tag = "${A1111_BASE_TAG}"
+      }, {
+        app = "comfyui"
+        image = "${COMFYUI_BASE_IMAGE}"
+        tag = "${COMFYUI_BASE_TAG}"
+      }, {
+        app = "kohya_ss"
+        image = "${KOHYA_SS_BASE_IMAGE}"
+        tag = "${KOHYA_SS_BASE_TAG}"
+      }, {
+        app = "sdnext"
+        image = "${SDNEXT_BASE_IMAGE}"
+        tag = "${SDNEXT_BASE_TAG}"
+      }
     ]
   }
 
-  dockerfile = "${app}/Dockerfile"
-
-  contexts = {
-    base = "target:base"
+  args = {
+    TORCH_VERSION = TORCH
   }
 
-  tags = ["docker.io/${ACCOUNT}/${IMAGE_PREFIX}${app}:${BASE_IMAGE_TAG}"]
+  dockerfile = "Dockerfile"
+  target = item.app
+
+  contexts = {
+    cuda_img = "docker-image://${item.image}:${item.tag}"
+  }
+
+  tags = ["docker.io/${ACCOUNT}/gradient-${item.app}:${item.tag}"]
 }
