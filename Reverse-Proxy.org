@@ -1,0 +1,14 @@
+* Reverse Proxy
+
+To keep access for all installations the same, I use a proper reverse
+proxy to do authentication and forwarding to the right backed.
+
+This notebook will setup HAProxy, so it can be used over the
+tensorboard URL, provided by paperspace. First, configure username and
+password in =comfyui_haproxy.cfg=. Then run the following block to get
+the URL and start HAProxy:
+
+#+begin_src jupyter-python
+!echo https://tensorboard-$PAPERSPACE_FQDN
+!haproxy -V -f /notebooks/haproxy.cfg
+#+end_src

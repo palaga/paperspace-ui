@@ -1,0 +1,14 @@
+* ComfyUI
+
+Once haproxy is started (it will run in the background), you can run
+the following block to start comfyui.
+
+#+begin_src jupyter-python
+%cd /opt/comfyui
+
+# Link models
+!ln -fs /notebooks/comfyui_config.yaml /opt/comfyui/extra_model_paths.yaml
+
+# Start comfyui
+!python3 main.py --listen 127.0.0.1 --port 8888
+#+end_src
