@@ -114,14 +114,25 @@ FROM torch_base as comfyui
 # Clone ComfyUI
 ADD --keep-git-dir=true https://github.com/comfyanonymous/ComfyUI.git /opt/comfyui
 
+# Clone plugins
+ADD --keep-git-dir=true https://github.com/Fannovel16/comfyui_controlnet_aux /opt/comfyui/custom_nodes/comfyui_controlnet_aux
+ADD --keep-git-dir=true https://github.com/Gourieff/comfyui-reactor-node /opt/comfyui/custom_nodes/comfyui-reactor-node
+ADD --keep-git-dir=true https://github.com/Kosinkadink/ComfyUI-AnimateDiff-Evolved /opt/comfyui/custom_nodes/ComfyUI-AnimateDiff-Evolved
+ADD --keep-git-dir=true https://github.com/Kosinkadink/ComfyUI-VideoHelperSuite /opt/comfyui/custom_nodes/ComfyUI-VideoHelperSuite
+ADD --keep-git-dir=true https://github.com/WASasquatch/was-node-suite-comfyui /opt/comfyui/custom_nodes/was-node-suite-comfyui
+ADD --keep-git-dir=true https://github.com/civitai/civitai_comfy_nodes /opt/comfyui/custom_nodes/civitai_comfy_nodes
+ADD --keep-git-dir=true https://github.com/coreyryanhanson/ComfyQR /opt/comfyui/custom_nodes/ComfyQR
+ADD --keep-git-dir=true https://github.com/cubiq/ComfyUI_IPAdapter_plus /opt/comfyui/custom_nodes/ComfyUI_IPAdapter_plus
+ADD --keep-git-dir=true https://github.com/ltdrdata/ComfyUI-Impact-Pack /opt/comfyui/custom_nodes/ComfyUI-Impact-Pack
+ADD --keep-git-dir=true https://github.com/ltdrdata/ComfyUI-Manager /opt/comfyui/custom_nodes/ComfyUI-Manager
 
 # Install requirements
-# TODO: replace hardcoded torch version
 RUN --mount=type=cache,target=/root/.cache/pip,sharing=locked \
     cd /opt/comfyui && \
     python3 -m pip install -r requirements.txt
 
-
+RUN --mount=type=cache,target=/root/.cache/pip,sharing=locked \
+    sh -c 'for r in $(find /opt/comfyui/custom_nodes/ -name requirements.txt); do python3 -m pip install -r "$r"; done'
 
 #
 # SDNext image
