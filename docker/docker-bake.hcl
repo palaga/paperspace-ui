@@ -95,7 +95,7 @@ target "default" {
   target = item.app
 
   contexts = {
-    cuda_img = "docker-image://${item.image}:${item.tag}"
+    cuda_img = "docker-image://${item.image}:${BASE_TAG}"
   }
 
   tags = ["docker.io/${ACCOUNT}/gradient-${item.app}:${item.tag}"]
