@@ -32,11 +32,11 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
       unzip \
       zip
 
-# Install jupyterlab
+# Install jupyterlab and ipywidgets
 RUN --mount=type=cache,target=/root/.cache/pip,sharing=locked \
     python3 -m pip install \
-      jupyterlab==4.0.7
-
+      jupyterlab==4.0.7 \
+      ipywidgets==8.1.1
 
 
 #
